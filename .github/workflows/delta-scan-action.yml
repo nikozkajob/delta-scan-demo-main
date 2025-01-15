@@ -1,0 +1,22 @@
+name: Docker Image CI
+
+on:
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  GITHUB_PR_NUMBER: ${{github.event.pull_request.number}}
+  REPO_URL: ${{ github.server_url }}/${{ github.repository }}
+  API_KEY: ${{ secrets.your-api-key }}
+
+jobs:
+  pre-build:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: scan code for vulnerabilities
+        run: |
+          echo Downloading cdefense CLI
+          curl -L https://github.com/CloudDefenseAI/cd/releases/download/1.38.4/cd-latest-linux-x64.tar.gz > /tmp/cd-latest-linux-x64.tar.gz && tar -C /usr/local/bin -xzf /tmp/cd-latest-linux-x64.tar.gz && chmod +x /usr/local/bin/cd-latest-linux-x64
+          cd-latest-linux-x64 online --api-key=84c2033a-32d5-4277-b5fa-0302cba906cd --repository-url="$REPO_URL" --pr-id="$GITHUB_PR_NUMBER" --type=GITHUB
