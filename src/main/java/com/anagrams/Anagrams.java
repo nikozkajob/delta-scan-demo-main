@@ -3,7 +3,7 @@ package com.anagrams;
 
 import java.util.ArrayList;
 import java.util.List;
-
+//trigger Delta
 //Write a program to generate all potential anagrams of an input string.
 //
 //For example, the potential anagrams of "biro" are
